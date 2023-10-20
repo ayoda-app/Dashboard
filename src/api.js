@@ -7,7 +7,7 @@ const ayodaApi = axios.create({
 
 const api = {
     root: {
-        get: ayodaApi.get("")
+        get: () => ayodaApi.get("")
     }
 };
 
