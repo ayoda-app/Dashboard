@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+import VueApexCharts from "vue3-apexcharts";
 import router from "./router";
 import "./assets/css/main.css";
 // Fontawesome
@@ -20,4 +21,5 @@ library.add(faChartLine);
 createApp(App)
 .component("font-awesome-icon", FontAwesomeIcon)
 .use(router)
+.use(VueApexCharts)
 .mount("#app");
