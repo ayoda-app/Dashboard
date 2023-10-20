@@ -1,8 +1,10 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import VueApexCharts from "vue3-apexcharts";
 import router from "./router";
 import "./assets/css/main.css";
+// 3rd Party Components
+import VueApexCharts from "vue3-apexcharts";
+import Multiselect from "vue-multiselect";
 // Fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -20,6 +22,7 @@ library.add(faChartLine);
 
 createApp(App)
 .component("font-awesome-icon", FontAwesomeIcon)
+.component("multiselect", Multiselect)
 .use(router)
 .use(VueApexCharts)
 .mount("#app");

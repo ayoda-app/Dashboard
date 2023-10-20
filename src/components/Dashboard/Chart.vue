@@ -1,39 +1,70 @@
 <script>
+// import _ from "lodash";
+import { getMonth } from "../../utils";
+import { COLORS } from "../../constants";
 import pizzaData from "../../assets/data/pizza_sales_daily.json";
-console.log(pizzaData);
+// import forecastData from "../../assets/data/model_preds.json";
 
 export default {
     name: "Chart",
-    data() {
-        return {
-            series: [
+    props: {
+        aggregationPeriod: {
+            type: String,
+            default: "daily"
+        }
+    },
+    computed: {
+        actualData() {
+            const aggregate = {};
+            Object.keys(pizzaData).forEach(date => {
+                console.log(date);
+                const [month, day, year] = date.split("/");
+                const key = `${getMonth(month)} ${year}`;
+
+                if(!aggregate[key]){
+                    aggregate[key] = 0;
+                }
+                aggregate[key] += pizzaData[date];
+            });
+
+            switch(this.aggregationPeriod) {
+                case "monthly":
+                    return aggregate;
+                default:
+                    return pizzaData;
+            }
+        },
+        // forecastedData() {
+        //     return Object.values(pizzaData).map(s => s + Math.floor(Math.random() * 50));
+        // },
+        series() {
+            return [
                 {
-                    name: "Sales",
-                    data: Object.values(pizzaData)
+                    name: "Actual Sales",
+                    data: Object.values(this.actualData)
                 },
                 // {
-                //     name: "Page Views",
-                //     data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35]
-                // },
-                // {
-                //     name: "Total Visits",
-                //     data: [87, 57, 74, 99, 75, 38, 62, 47, 82, 56, 45, 47]
+                //     name: "Forcasted Sales",
+                //     data: this.forecastedData
                 // }
-            ],
-            chartOptions: {
+            ];
+        },
+        chartOptions() {
+            return {
                 chart: {
                     type: "line",
                     zoom: {
                         enabled: true
                     },
                 },
+                colors: [COLORS.ORANGE, COLORS.BLUE],
                 dataLabels: {
                     enabled: false
                 },
                 stroke: {
-                    width: [3, 3, 3],
+                    width: [3, 3],
                     curve: "straight",
-                    dashArray: [0, 8, 5]
+                    dashArray: [0, 0],
                 },
                 title: {
                     text: "Sales Data",
@@ -51,11 +82,7 @@ export default {
                     }
                 },
                 xaxis: {
-                    // categories: [
-                    //     "01 Jan", "02 Jan", "03 Jan", "04 Jan", "05 Jan", "06 Jan",
-                    //     "07 Jan", "08 Jan", "09 Jan", "10 Jan", "11 Jan", "12 Jan"
-                    // ],
-                    categories: Object.keys(pizzaData)
+                    categories: Object.keys(this.actualData)
                 },
                 tooltip: {
                     y: [
@@ -65,36 +92,22 @@ export default {
                                     return val + " sales"
                                 }
                             }
-                        },
-                        // {
-                        //     title: {
-                        //         formatter: function (val) {
-                        //             return val + " per session"
-                        //         }
-                        //     }
-                        // },
-                        // {
-                        //     title: {
-                        //         formatter: function (val) {
-                        //             return val;
-                        //         }
-                        //     }
-                        // }
+                        }
                     ]
                 },
                 grid: {
                     borderColor: "#f1f1f1",
                 }
             }
-        };
+        }
     }
 };
 </script>
 
 <template>
-    <div id="chart">
+    <div id="line">
         <apexchart
-            type="line"
+            type="area"
             height="500"
             width="1100"
             :options="chartOptions"

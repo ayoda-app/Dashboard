@@ -1,12 +1,21 @@
 <script>
 import Chart from "./Chart";
 import Navbar from "./Navbar";
+import DashboardSettings from "./DashboardSettings";
 
 export default {
     name: "Dashboard",
+    data() {
+        return {
+            settings: {
+                aggregationPeriod: "monthly"
+            }
+        };
+    },
     components: {
         Chart,
-        Navbar
+        Navbar,
+        DashboardSettings
     }
 };
 </script>
@@ -16,7 +25,8 @@ export default {
         <Navbar />
         <section>
             <h1 class="title has-text-orange">Ayoda Dashboard</h1>
-            <Chart />
+            <Chart :aggregationPeriod="settings.aggregationPeriod" />
+            <DashboardSettings />
         </section>
     </main>
 </template>
