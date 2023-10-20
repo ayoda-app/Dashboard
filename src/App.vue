@@ -1,5 +1,6 @@
 <script>
 import api from "./api";
+// import axios from "axios";
 
 export default {
   name: "App",
@@ -11,6 +12,7 @@ export default {
   methods: {
     async getApi() {
       const response = await api.root.get();
+      // const response = await axios.get("http://127.0.0.1:5001");
       this.response = response.data;
     }
   },
