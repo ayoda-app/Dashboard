@@ -6,32 +6,61 @@ import pizzaData from "../../assets/data/pizza_sales_daily.json";
 // import forecastData from "../../assets/data/model_preds.json";
 
 export default {
-    name: "Chart",
+    name: "Graph",
     props: {
-        aggregationPeriod: {
+        aggregateInterval: {
             type: String,
-            default: "daily"
+            required: true
+        },
+        diagramType: {
+            type: String,
+            required: true
         }
+    },
+    methods: {
+        aggregate(data, interval) {
+            const agg = {};
+
+            Object.keys(data).forEach(date => {
+                const [month, day, year] = date.split("/");
+                let key;
+
+                switch(interval) {
+                    case "annually":
+                        key = year;
+                        break;
+                    case "quarterly":
+                        // Need to validate or fix
+                        key = `Q${Math.floor((month - 1) / 3) + 1} ${year}`;
+                        break;
+                    case "monthly":
+                        key = `${getMonth(month)} ${year}`;
+                        break;
+                    case "weekly":
+                        // Need to validate or fix
+                        console.log(date, Math.floor(day / 7) + 1);
+                        key = `Week ${Math.floor(day / 7) + 1} ${getMonth(month)} ${year}`;
+                        break;
+                    default:
+                        key = date;
+                }
+
+                if(!agg[key]){
+                    agg[key] = 0;
+                }
+                agg[key] += data[date];
+            });
+
+            return agg;
+        },
     },
     computed: {
         actualData() {
-            const aggregate = {};
-            Object.keys(pizzaData).forEach(date => {
-                console.log(date);
-                const [month, day, year] = date.split("/");
-                const key = `${getMonth(month)} ${year}`;
-
-                if(!aggregate[key]){
-                    aggregate[key] = 0;
-                }
-                aggregate[key] += pizzaData[date];
-            });
-
-            switch(this.aggregationPeriod) {
-                case "monthly":
-                    return aggregate;
-                default:
-                    return pizzaData;
+            if(this.aggregateInterval === "daily") {
+                return pizzaData;
+            }
+            else {
+                return this.aggregate(pizzaData, this.aggregateInterval);
             }
         },
         // forecastedData() {
@@ -52,7 +81,7 @@ export default {
         chartOptions() {
             return {
                 chart: {
-                    type: "line",
+                    type: this.diagramType,
                     zoom: {
                         enabled: true
                     },
@@ -105,13 +134,10 @@ export default {
 </script>
 
 <template>
-    <div id="line">
-        <apexchart
-            type="area"
-            height="500"
-            width="1100"
-            :options="chartOptions"
-            :series="series"
-        ></apexchart>
-    </div>
+    <apexchart
+        height="500"
+        width="1100"
+        :options="chartOptions"
+        :series="series"
+    ></apexchart>
 </template>

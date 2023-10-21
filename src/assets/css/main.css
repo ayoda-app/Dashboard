@@ -22,6 +22,10 @@ html {
     color: #E17324;
 }
 
+.nowrap {
+    text-wrap: nowrap;
+};
+
 .gap-25 { gap: 25px; }
 .gap-20 { gap: 20px; }
 .gap-15 { gap: 15px; }

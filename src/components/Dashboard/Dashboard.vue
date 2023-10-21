@@ -1,5 +1,5 @@
 <script>
-import Chart from "./Chart";
+import Graph from "./Graph";
 import Navbar from "./Navbar";
 import DashboardSettings from "./DashboardSettings";
 
@@ -8,12 +8,13 @@ export default {
     data() {
         return {
             settings: {
-                aggregationPeriod: "monthly"
+                aggregateInterval: "monthly",
+                diagramType: "line"
             }
         };
     },
     components: {
-        Chart,
+        Graph,
         Navbar,
         DashboardSettings
     }
@@ -25,8 +26,14 @@ export default {
         <Navbar />
         <section>
             <h1 class="title has-text-orange">Ayoda Dashboard</h1>
-            <Chart :aggregationPeriod="settings.aggregationPeriod" />
-            <DashboardSettings />
+            <Graph
+                :aggregateInterval="settings.aggregateInterval"
+                :diagramType="settings.diagramType"
+            />
+            <DashboardSettings
+                v-model:aggregateInterval="settings.aggregateInterval"
+                v-model:diagramType="settings.diagramType"
+            />
         </section>
     </main>
 </template>
