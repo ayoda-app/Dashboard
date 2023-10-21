@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 /* Ayoda orange - #E17324 */
+/* Ayoda blue - #247BE1 */
 /* Ayoda gold - #F0D996 */
 /* Ayoda black - #161616 */
 
@@ -20,6 +21,10 @@ html {
 .has-text-orange {
     color: #E17324;
 }
+
+.nowrap {
+    text-wrap: nowrap;
+};
 
 .gap-25 { gap: 25px; }
 .gap-20 { gap: 20px; }

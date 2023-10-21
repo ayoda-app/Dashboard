@@ -8,3 +8,5 @@ export default {
 <template>
   <router-view></router-view>
 </template>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
