@@ -18,7 +18,15 @@ export default {
             required: true
         }
     },
+    data() {
+        return {
+            windowWidth: window.innerWidth
+        };
+    },
     methods: {
+        onResize() {
+            this.windowWidth = window.innerWidth;
+        },
         aggregate(data) {
             const agg = {};
 
@@ -35,14 +43,12 @@ export default {
                         key = year;
                         break;
                     case "quarterly":
-                        // Need to validate or fix
                         key = `Q${quarter} ${year}`;
                         break;
                     case "monthly":
                         key = `${getMonth(month)} ${year}`;
                         break;
                     case "weekly":
-                        // Need to validate or fix
                         key = `Week ${week} ${getMonth(month)} ${year}`;
                         break;
                     default:
@@ -160,16 +166,39 @@ export default {
                     borderColor: "#f1f1f1",
                 }
             }
-        }
-    }
+        },
+        chartSize() {
+            const width = this.windowWidth - 300;
+            const height = window.innerHeight - 300;
+
+            console.log(width, height);
+            return {
+                width,
+                height
+            }
+        },
+    },
+    mounted() {
+        this.$nextTick(() => {
+            window.addEventListener('resize', this.onResize);
+        })
+    },
+    beforeUnmount() { 
+        window.removeEventListener('resize', this.onResize); 
+    },
 };
 </script>
 
 <template>
-    <apexchart
-        height="500"
-        width="1100"
-        :options="chartOptions"
-        :series="series"
-    ></apexchart>
+    <div
+        :style="`width: ${chartSize.width}px; height: ${chartSize.height}px;`"
+    >
+        <apexchart
+            width="100%"
+            height="100%"
+            class="chart"
+            :options="chartOptions"
+            :series="series"
+        ></apexchart>
+    </div>
 </template>

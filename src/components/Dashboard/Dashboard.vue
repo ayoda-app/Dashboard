@@ -26,14 +26,19 @@ export default {
         <Navbar />
         <section>
             <h1 class="title has-text-orange">Ayoda Dashboard</h1>
-            <Graph
-                :aggregateInterval="settings.aggregateInterval"
-                :diagramType="settings.diagramType"
-            />
-            <DashboardSettings
-                v-model:aggregateInterval="settings.aggregateInterval"
-                v-model:diagramType="settings.diagramType"
-            />
+            <div v-if="$route.params.section === 'predictions'">
+                <Graph
+                    :aggregateInterval="settings.aggregateInterval"
+                    :diagramType="settings.diagramType"
+                />
+                <DashboardSettings
+                    v-model:aggregateInterval="settings.aggregateInterval"
+                    v-model:diagramType="settings.diagramType"
+                />
+            </div>
+            <div v-else>
+                <h1 class="subtitle">Coming Soon</h1>
+            </div>
         </section>
     </main>
 </template>
