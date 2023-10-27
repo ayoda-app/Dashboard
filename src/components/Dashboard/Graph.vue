@@ -1,9 +1,10 @@
 <script>
-// import _ from "lodash";
+import _ from "lodash";
+import moment from "moment";
 import { getMonth } from "../../utils";
 import { COLORS } from "../../constants";
-import pizzaData from "../../assets/data/pizza_sales_daily.json";
-// import forecastData from "../../assets/data/model_preds.json";
+import actualJSON from "../../assets/data/pizza_sales_daily.json";
+import forecastJSON from "../../assets/data/model_preds.json";
 
 export default {
     name: "Graph",
@@ -18,37 +19,45 @@ export default {
         }
     },
     methods: {
-        aggregate(data, interval) {
+        aggregate(data) {
             const agg = {};
 
             Object.keys(data).forEach(date => {
-                const [month, day, year] = date.split("/");
+                const dateMoment = moment(date, "MM/DD/YYYY")
+                const quarter = Math.floor((dateMoment.month() - 1) / 3) + 1;
+                const month = dateMoment.month();
+                const year = dateMoment.year();
+                const week = (moment(date, "MM/DD/YYYY").week() % 4) + 1;
                 let key;
 
-                switch(interval) {
+                switch(this.aggregateInterval) {
                     case "annually":
                         key = year;
                         break;
                     case "quarterly":
                         // Need to validate or fix
-                        key = `Q${Math.floor((month - 1) / 3) + 1} ${year}`;
+                        key = `Q${quarter} ${year}`;
                         break;
                     case "monthly":
                         key = `${getMonth(month)} ${year}`;
                         break;
                     case "weekly":
                         // Need to validate or fix
-                        console.log(date, Math.floor(day / 7) + 1);
-                        key = `Week ${Math.floor(day / 7) + 1} ${getMonth(month)} ${year}`;
+                        key = `Week ${week} ${getMonth(month)} ${year}`;
                         break;
                     default:
                         key = date;
                 }
 
+                // Initialize key as null
                 if(!agg[key]){
-                    agg[key] = 0;
+                    agg[key] = null;
                 }
-                agg[key] += data[date];
+
+                // If the data point is not null, add it to the aggregate at the key
+                if(data[date] !== null){
+                    agg[key] += data[date];
+                }
             });
 
             return agg;
@@ -57,25 +66,48 @@ export default {
     computed: {
         actualData() {
             if(this.aggregateInterval === "daily") {
-                return pizzaData;
+                return actualJSON;
             }
             else {
-                return this.aggregate(pizzaData, this.aggregateInterval);
+                return this.aggregate(actualJSON);
             }
         },
-        // forecastedData() {
-        //     return Object.values(pizzaData).map(s => s + Math.floor(Math.random() * 50));
-        // },
+        forecastedData() {
+            const startIndex = Object.keys(actualJSON).length - forecastJSON["model predictions"].length;
+
+            const data = _.reduce(
+                Object.keys(actualJSON),
+                (result, date, index) => {
+                    const currentDate = moment(date, "MM/DD/YYYY").format("MM/DD/YYYY");
+
+                    const datapoint = (index - startIndex) >= 0
+                        ? Math.floor(forecastJSON["model predictions"][index - startIndex])
+                        : null;
+
+                    result[currentDate] = datapoint;
+                    return result;
+                },
+                {}
+            );
+
+            if(this.aggregateInterval === "daily") {
+                return data;
+            }
+            else {
+                return this.aggregate(data);
+            }
+            
+        },
         series() {
             return [
                 {
                     name: "Actual Sales",
                     data: Object.values(this.actualData)
                 },
-                // {
-                //     name: "Forcasted Sales",
-                //     data: this.forecastedData
-                // }
+                {
+                    name: "Forcasted Sales",
+                    data: Object.values(this.forecastedData)
+                }
             ];
         },
         chartOptions() {
