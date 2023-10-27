@@ -35,6 +35,20 @@ export default {
                     v-model:aggregateInterval="settings.aggregateInterval"
                     v-model:diagramType="settings.diagramType"
                 />
+                <br><br>
+                <h1 class ="subtitle">The model is accurate within 24 orders on average</h1>
+            </div>
+            <div v-else-if="$route.params.section === 'insights'">
+                <Graph
+                    :aggregateInterval="settings.aggregateInterval"
+                    :diagramType="settings.diagramType"
+                />
+                <DashboardSettings
+                    v-model:aggregateInterval="settings.aggregateInterval"
+                    v-model:diagramType="settings.diagramType"
+                />
+                <br><br>
+                <h1 class ="subtitle">The Trend of Sales</h1>
             </div>
             <div v-else>
                 <h1 class="subtitle">Coming Soon</h1>
