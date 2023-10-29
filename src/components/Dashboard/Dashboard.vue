@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-    <section>
+    <section class="is-flex is-flex-direction-column gap-25">
         <h1 class="title has-text-orange">Dashboard</h1>
         <Graph
             :aggregateInterval="settings.aggregateInterval"
@@ -30,7 +30,8 @@ export default {
             v-model:aggregateInterval="settings.aggregateInterval"
             v-model:diagramType="settings.diagramType"
         />
-        <br><br>
-        <h1 class ="subtitle">The model is accurate within 24 orders on average</h1>
+        <p>
+            *Note: The following chart displays sample restaurant data. This model, on average, is accurate within 24 orders.
+        </p>
     </section>
 </template>
