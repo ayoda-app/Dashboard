@@ -33,10 +33,9 @@ const routes = [
 
 const router = createRouter({
   history: (
-    // process.env.NODE_ENV === "production"
-    //     ? createWebHistory("/Dashboard/")
-        // : createWebHistory("/")
-        createWebHistory("/")
+    process.env.NODE_ENV === "production"
+        ? createWebHistory("/Dashboard/")
+        : createWebHistory("/")
   ),
   routes,
 })
