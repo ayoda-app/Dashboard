@@ -4,10 +4,10 @@ import DashboardView from "./components/views/DashboardView.vue";
 const routes = [
     {
         path: "/",
-        redirect: "/dashboard/predictions"
+        redirect: "/page/predictions"
     },
     {
-        path: "/dashboard/:section",
+        path: "/page/:section",
         component: DashboardView
     }
 ]
