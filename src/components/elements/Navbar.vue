@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-    <nav class="is-flex is-flex-direction-column is-flex-0">
+    <nav>
         <header class="pb-5">
             <router-link to="/predictions">
                 <img
