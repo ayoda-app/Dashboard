@@ -20,8 +20,8 @@ export default {
 </script>
 
 <template>
-    <section class="is-flex is-flex-direction-row gap-20">
-        <div class="is-flex is-flex-direction-row is-align-items-center gap-10">
+    <section class="columns gap-20">
+        <div class="column is-flex is-flex-direction-row is-align-items-center gap-10">
             <span>Aggregate</span>
     
             <multiselect
@@ -35,7 +35,7 @@ export default {
             ></multiselect>
         </div>
 
-        <div class="is-flex is-flex-direction-row is-align-items-center gap-10">
+        <div class="column is-flex is-flex-direction-row is-align-items-center gap-10">
             <span class="nowrap">Diagram Type</span>
     
             <multiselect

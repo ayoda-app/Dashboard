@@ -168,8 +168,20 @@ export default {
             }
         },
         chartSize() {
-            const width = this.windowWidth - 300;
-            const height = window.innerHeight - 300;
+            let verticalMargin = 300;
+            let horizontalMargin = 300;
+
+            // Phone Vertical
+            if(this.windowWidth < 768) {
+                horizontalMargin = 150;
+                verticalMargin = 450;
+            }
+            // Phone Horizontal
+            else if(this.windowWidth < 1023) {
+                verticalMargin = 75;
+            }
+            const width = this.windowWidth - horizontalMargin;
+            const height = window.innerHeight - verticalMargin;
 
             console.log(width, height);
             return {
