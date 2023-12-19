@@ -21,7 +21,6 @@ export default {
 
 <template>
     <section class="is-flex is-flex-direction-column gap-25">
-        <h1 class="title has-text-orange">Dashboard</h1>
         <Graph
             :aggregateInterval="settings.aggregateInterval"
             :diagramType="settings.diagramType"

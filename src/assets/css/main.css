@@ -32,10 +32,13 @@ html {
     text-wrap: nowrap;
 };
 
+.has-width-200 { width: 200px; }
 .has-width-4 { width: 4px; }
 .has-width-3 { width: 3px; }
 .has-width-2 { width: 2px; }
 .has-width-1 { width: 1px; }
+
+.has-height-50 { height: 50px; }
 
 .has-rounded-edges { border-radius: 999999px; }
 

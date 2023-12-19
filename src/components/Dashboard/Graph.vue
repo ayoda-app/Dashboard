@@ -183,7 +183,6 @@ export default {
             const width = this.windowWidth - horizontalMargin;
             const height = window.innerHeight - verticalMargin;
 
-            console.log(width, height);
             return {
                 width,
                 height
