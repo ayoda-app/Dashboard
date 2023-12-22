@@ -1,15 +1,17 @@
 <script>
 import Navbar from "./components/elements/Navbar.vue";
 
+const SIGN_IN_URL = "https://ayoda-app-login.auth.us-east-2.amazoncognito.com/login?client_id=30edmu1p20mm0pmjs4scmfuefl&response_type=code&scope=email+openid&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Forders";
+
 export default {
   name: "App",
+  moethods: {
+    toRoot() {
+      this.$router.push({ path: "/" });
+    }
+  },
   components: {
     Navbar
-  },
-  computed: {
-    signedIn() {
-      return this.$store.state.authKey !== null;
-    }
   }
 }
 </script>
@@ -17,36 +19,23 @@ export default {
 <template>
   <main class="box m-5 p-25">
     <header class="is-flex is-flex-direction-row gap-15 is-align-items-center">
-        <img
-            src="./assets/img/logo/svg/Text-Logo-No-Background-Black.svg"
-            alt="Ayoda Logo"
-            class="has-height-50"
-        >
+        <a @click="toRoot" class="is-flex">
+          <img
+              src="./assets/img/logo/svg/Text-Logo-No-Background-Black.svg"
+              alt="Ayoda Logo"
+              class="has-height-50"
+          >
+        </a>
     </header>
-
     <hr>
-
-    <!-- Authenticated screen -->
-    <div v-if="true/*signedIn*/" class="columns">
-      <div class="is-flex is-flex-0 column">
+    <section class="columns">
+      <div v-if="$route.name !== 'login' && $route.name !== 'page-not-found'" class="is-flex is-flex-0 column">
         <Navbar />
       </div>
       <div class="is-flex is-flex-1 column">
         <router-view></router-view>
       </div>
-    </div>
-
-    <!-- Sign in Screen -->
-    <div v-else class="is-flex is-flex-direction-column is-align-items-center gap-15">
-      <h1 class="title m-0">Sign in</h1>
-      <h2>Email</h2>
-      <input type="text" placeholder="email" class="input">
-      <h2>Password</h2>
-      <input type="password" placeholder="password" class="input">
-      <button class="button">Sign in</button>
-      <span>or</span>
-      <button class="button">Sign in with Google</button>
-    </div>
+    </section>
   </main>
 </template>
 

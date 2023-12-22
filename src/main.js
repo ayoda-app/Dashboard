@@ -9,10 +9,13 @@ import Multiselect from "vue-multiselect";
 // Fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faReceipt } from "@fortawesome/free-solid-svg-icons";
-import { faBoxArchive } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlassChart } from "@fortawesome/free-solid-svg-icons";
-import { faChartLine } from "@fortawesome/free-solid-svg-icons";
+import {
+    faReceipt,
+    faBoxArchive,
+    faMagnifyingGlassChart,
+    faChartLine,
+    faArrowRightFromBracket
+} from "@fortawesome/free-solid-svg-icons";
 
 
 // Fontawesome add to library
@@ -20,6 +23,7 @@ library.add(faReceipt);
 library.add(faBoxArchive);
 library.add(faMagnifyingGlassChart);
 library.add(faChartLine);
+library.add(faArrowRightFromBracket);
 
 createApp(App)
 .component("font-awesome-icon", FontAwesomeIcon)

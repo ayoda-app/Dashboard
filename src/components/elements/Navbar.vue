@@ -1,6 +1,12 @@
 <script>
 export default {
-    name: "Navbar"
+    name: "Navbar",
+    methods: {
+        signOut() {
+            localStorage.removeItem("authToken");
+            this.$router.push({ path: "/" });
+        }
+    }
 };
 </script>
 
@@ -34,6 +40,12 @@ export default {
                 :class="{ 'is-underlined': $route.name === 'past-orders' }"
             >Past Orders</label>
         </router-link>
+        <a @click="signOut" class="nav-option subtitle m-0 nowrap">
+            <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" />
+            <label
+                class="ml-3"
+            >Sign Out</label>
+        </a>
     </nav>
 </template>
 
